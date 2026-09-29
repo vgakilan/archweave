@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "requirement-to-diagram"
+version = "0.1.0"
+description = "Convert software requirements into structured diagrams."
+requires-python = ">=3.12"
+dependencies = [
+    "jsonschema>=4.23,<5",
+    "openai>=2.0,<3",
+    "pydantic>=2.0,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

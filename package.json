@@ -1,0 +1,12 @@
+{
+  "name": "requirement-to-diagram",
+  "private": true,
+  "scripts": {
+    "mermaid:version": "mmdc --version"
+  },
+  "devDependencies": {
+    "@iconify-json/lucide": "^1.2.137",
+    "@iconify-json/simple-icons": "^1.2.98",
+    "@mermaid-js/mermaid-cli": "^12.0.0"
+  }
+}

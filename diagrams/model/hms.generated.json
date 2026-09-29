@@ -1,0 +1,42 @@
+{
+  "title": "Hospital Management System Architecture",
+  "diagram_type": "architecture",
+  "direction": "LR",
+  "groups": [
+    { "id": "hospital_management_system", "label": "Hospital Management System" },
+    { "id": "presentation_layer", "label": "Presentation Layer", "parent_group": "hospital_management_system" },
+    { "id": "application_layer", "label": "Application Layer", "parent_group": "hospital_management_system" },
+    { "id": "data_layer", "label": "Data Layer", "parent_group": "hospital_management_system" }
+  ],
+  "nodes": [
+    { "id": "patient", "label": "Patient", "type": "actor" },
+    { "id": "receptionist", "label": "Receptionist", "type": "actor" },
+    { "id": "doctor", "label": "Doctor", "type": "actor" },
+    { "id": "lab_technician", "label": "Lab Technician", "type": "actor" },
+    { "id": "pharmacist", "label": "Pharmacist", "type": "actor" },
+    { "id": "accountant", "label": "Accountant", "type": "actor" },
+    { "id": "admin", "label": "Admin", "type": "actor" },
+    { "id": "administrator", "label": "Administrator", "type": "actor" },
+    { "id": "patient_portal", "label": "Patient Portal", "type": "application", "group": "presentation_layer" },
+    { "id": "staff_dashboard", "label": "Staff Dashboard", "type": "application", "group": "presentation_layer" },
+    { "id": "hms_backend", "label": "Backend", "type": "application", "group": "application_layer" },
+    { "id": "authentication_module", "label": "Authentication Module", "type": "service", "group": "application_layer" },
+    { "id": "patient_management", "label": "Patient Management", "type": "service", "group": "application_layer" },
+    { "id": "billing_engine", "label": "Billing Engine", "type": "service", "group": "application_layer" },
+    { "id": "notification_service", "label": "Notification Service", "type": "service", "group": "application_layer" },
+    { "id": "relational_database", "label": "Relational Database", "type": "database", "group": "data_layer" }
+  ],
+  "edges": [
+    { "source": "patient", "target": "patient_portal" },
+    { "source": "receptionist", "target": "staff_dashboard" },
+    { "source": "doctor", "target": "staff_dashboard" },
+    { "source": "lab_technician", "target": "staff_dashboard" },
+    { "source": "pharmacist", "target": "staff_dashboard" },
+    { "source": "accountant", "target": "staff_dashboard" },
+    { "source": "admin", "target": "staff_dashboard" },
+    { "source": "administrator", "target": "staff_dashboard" },
+    { "source": "patient_portal", "target": "hms_backend", "protocol": "HTTPS" },
+    { "source": "staff_dashboard", "target": "hms_backend", "protocol": "HTTPS" },
+    { "source": "hms_backend", "target": "relational_database" }
+  ]
+}

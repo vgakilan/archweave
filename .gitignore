@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env*
+!.env.example
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Requirement inputs are private by default; force-add only after review.
+requirements/*
+!requirements/sample.txt
+!requirements/order_processing.txt
+
+# Generated diagrams
+diagrams/rendered/*
+!diagrams/rendered/.gitkeep
+!diagrams/rendered/*.svg

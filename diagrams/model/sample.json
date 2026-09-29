@@ -1,0 +1,22 @@
+{
+  "title": "Online Shopping Architecture",
+  "diagram_type": "architecture",
+  "direction": "LR",
+  "nodes": [
+    { "id": "customer", "label": "Customer", "type": "actor" },
+    { "id": "web_application", "label": "Web Application", "type": "application" },
+    { "id": "api_gateway", "label": "API Gateway", "type": "gateway" },
+    { "id": "order_service", "label": "Order Service", "type": "service" },
+    { "id": "payment_service", "label": "Payment Service", "type": "service" },
+    { "id": "postgresql", "label": "PostgreSQL", "type": "database" },
+    { "id": "external_payment_provider", "label": "External Payment Provider", "type": "external_system" }
+  ],
+  "edges": [
+    { "source": "customer", "target": "web_application" },
+    { "source": "web_application", "target": "api_gateway" },
+    { "source": "api_gateway", "target": "order_service", "label": "Order requests" },
+    { "source": "api_gateway", "target": "payment_service", "label": "Payment requests" },
+    { "source": "order_service", "target": "postgresql", "label": "Stores order information" },
+    { "source": "payment_service", "target": "external_payment_provider", "protocol": "HTTPS" }
+  ]
+}

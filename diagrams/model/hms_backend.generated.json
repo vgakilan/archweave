@@ -1,0 +1,27 @@
+{
+  "title": "Hospital Management System Backend Architecture",
+  "diagram_type": "architecture",
+  "direction": "LR",
+  "groups": [
+    { "id": "application_layer", "label": "Application Layer" },
+    { "id": "data_layer", "label": "Data Layer" }
+  ],
+  "nodes": [
+    { "id": "hms_backend", "label": "Backend", "type": "application", "group": "application_layer" },
+    { "id": "authentication_module", "label": "Authentication Module", "type": "application", "group": "application_layer" },
+    { "id": "patient_management", "label": "Patient Management", "type": "application", "group": "application_layer" },
+    { "id": "appointment_scheduling", "label": "Appointment Scheduling", "type": "application", "group": "application_layer" },
+    { "id": "ward_management", "label": "Ward Management", "type": "application", "group": "application_layer" },
+    { "id": "clinical_care", "label": "Clinical Care", "type": "application", "group": "application_layer" },
+    { "id": "laboratory_services", "label": "Laboratory Services", "type": "application", "group": "application_layer" },
+    { "id": "pharmacy_services", "label": "Pharmacy Services", "type": "application", "group": "application_layer" },
+    { "id": "billing_engine", "label": "Billing Engine", "type": "application", "group": "application_layer" },
+    { "id": "financial_reporting", "label": "Financial Reporting", "type": "application", "group": "application_layer" },
+    { "id": "system_administration", "label": "System Administration", "type": "application", "group": "application_layer" },
+    { "id": "notification_service", "label": "Notification Service", "type": "service", "group": "application_layer" },
+    { "id": "relational_database", "label": "Relational Database", "type": "database", "group": "data_layer" }
+  ],
+  "edges": [
+    { "source": "hms_backend", "target": "relational_database" }
+  ]
+}

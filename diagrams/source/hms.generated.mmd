@@ -1,0 +1,59 @@
+flowchart LR
+    patient(["Patient"])
+    receptionist(["Receptionist"])
+    doctor(["Doctor"])
+    lab_technician(["Lab Technician"])
+    pharmacist(["Pharmacist"])
+    accountant(["Accountant"])
+    admin(["Admin"])
+    administrator(["Administrator"])
+    subgraph hospital_management_system["Hospital Management System"]
+        direction LR
+        subgraph presentation_layer["Presentation Layer"]
+            direction LR
+            patient_portal("Patient Portal")
+            staff_dashboard("Staff Dashboard")
+        end
+        subgraph application_layer["Application Layer"]
+            direction LR
+            hms_backend("Backend")
+            authentication_module["Authentication Module"]
+            patient_management["Patient Management"]
+            billing_engine["Billing Engine"]
+            notification_service["Notification Service"]
+        end
+        subgraph data_layer["Data Layer"]
+            direction LR
+            relational_database[("Relational Database")]
+        end
+    end
+
+    patient --> patient_portal
+    receptionist --> staff_dashboard
+    doctor --> staff_dashboard
+    lab_technician --> staff_dashboard
+    pharmacist --> staff_dashboard
+    accountant --> staff_dashboard
+    admin --> staff_dashboard
+    administrator --> staff_dashboard
+    patient_portal -->|HTTPS| hms_backend
+    staff_dashboard -->|HTTPS| hms_backend
+    hms_backend --> relational_database
+
+    classDef type_actor fill:#eef2ff,stroke:#4f46e5,stroke-width:1.5px,color:#1e1b4b;
+    classDef type_application fill:#eff6ff,stroke:#2563eb,stroke-width:1.5px,color:#172554;
+    classDef type_service fill:#ecfdf5,stroke:#059669,stroke-width:1.5px,color:#064e3b;
+    classDef type_gateway fill:#fff7ed,stroke:#d97706,stroke-width:1.5px,color:#78350f;
+    classDef type_database fill:#f0fdfa,stroke:#0f766e,stroke-width:1.5px,color:#134e4a;
+    classDef type_external_system fill:#f8fafc,stroke:#64748b,stroke-width:1.5px,color:#0f172a;
+    classDef type_message_broker fill:#faf5ff,stroke:#7e22ce,stroke-width:1.5px,color:#581c87;
+    class patient,receptionist,doctor,lab_technician,pharmacist,accountant,admin,administrator type_actor;
+    class patient_portal,staff_dashboard,hms_backend type_application;
+    class authentication_module,patient_management,billing_engine,notification_service type_service;
+    class relational_database type_database;
+    classDef group_boundary fill:#f8fafc,stroke:#94a3b8,stroke-width:1px,color:#334155;
+    classDef group_nested fill:#ffffff,stroke:#cbd5e1,stroke-width:1px,color:#475569;
+    class hospital_management_system group_boundary;
+    class presentation_layer group_nested;
+    class application_layer group_nested;
+    class data_layer group_nested;
