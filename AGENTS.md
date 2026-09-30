@@ -2,47 +2,39 @@
 
 ## Goal
 
-Convert natural-language software requirements into structured, reviewable
-architecture diagrams. Mermaid is the initial renderer.
+Turn parsed Markdown software requirements into reviewable diagrams and a
+short written companion for business analysts, customers, and other readers.
 
-## Primary language
+## Workflow
 
-Use Python 3.12+. Do not introduce JavaScript application code unless
-necessary. Node.js is permitted for local Mermaid CLI tooling.
+Parsed Markdown → evidence-backed Requirement Model → validation → view plan
+→ Mermaid → local Mermaid CLI → SVGs and written companion.
 
-## Architecture
+Use `.agents/skills/requirement-review/SKILL.md` and
+`prompts/requirement_review.md`. In a Codex session, invoke the skill directly
+with `$requirement-review`. `scripts/run_pipeline.py` is the noninteractive
+terminal entry point; it uses the signed-in Codex CLI for extraction and view
+planning.
+The Markdown produced by AnyDoc is the sole source for requirement facts. Do
+not compare it with the original document.
 
-Requirement → Requirement Analyzer → structured Diagram model → schema/domain
-validation → optional Diagram Planner → Mermaid generator → renderer → SVG.
+## Rules
 
-## Design rules
-
-1. The structured model is the source of truth.
+1. The full Requirement Model is the source of truth. Extract only stated facts.
 2. Never generate Mermaid directly from raw requirements.
-3. Separate requirement interpretation, view planning, and rendering.
-4. Rendering failures must fail the process.
-5. Prefer simple focused views over crowded diagrams.
-6. Put generated models and diagrams under `diagrams/`.
-7. Keep business logic out of CLI scripts.
+3. Separate interpretation, view planning, and rendering.
+4. Choose architecture, flowchart, or sequence per reader question and only
+   when the model supports it. One clear view is enough when it answers the
+   question; otherwise use focused views.
+5. Do not invent components, technologies, protocols, relationships, process
+   transitions, or message order. Report insufficiency instead.
+6. Preserve significant facts outside the diagrams in the written companion.
+7. Rendering failures must fail the process. Keep generated artifacts under
+   `diagrams/` and business logic outside CLI scripts.
 
-## Requirement Analyzer
+## Implementation
 
-The analyzer converts natural-language requirements into a validated Diagram.
-Extract only stated information. Do not invent systems, protocols, databases,
-technologies, or relationships. Prefer omission over invention; retain generic
-terms and distinct components unless the requirement clearly equates them. If
-the text cannot support a valid model, fail rather than fabricate one. The
-contract is in `src/diagram_generator/analyzer_contract.py`; extraction rules
-are in `prompts/requirement_analyzer.md`.
-
-## Diagram Planner
-
-The planner selects presentation views from a validated model. The full model
-remains the source of truth. A view may filter nodes and existing edges,
-choose direction, and group selected nodes, but must not add architecture
-facts or communication edges. Follow `prompts/diagram_planner.md`.
-
-## Testing
-
-Use pytest for Python tests. Render with the repository's local official
-Mermaid CLI and verify the SVG output.
+Use Python 3.12+. Node.js is permitted for the repository's local Mermaid CLI.
+`schemas/requirement.schema.json` defines the model contract. Validate with
+`diagram_generator.requirement_model.load_requirement_model`, and generate with
+`scripts/generate_review.py`. Test with pytest and verify rendered SVGs.

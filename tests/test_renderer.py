@@ -41,28 +41,6 @@ def test_renderer_uses_local_cli_and_returns_svg(tmp_path: Path) -> None:
     assert kwargs["text"] is True
 
 
-def test_renderer_registers_only_local_packs_used_by_source(tmp_path: Path) -> None:
-    source, output, cli = _setup(tmp_path)
-    source.write_text(
-        'flowchart LR\n    n@{ shape: icon, icon: "lucide:user-round", label: "User" }\n',
-        encoding="utf-8",
-    )
-
-    def run(command: list[str], **kwargs: object) -> subprocess.CompletedProcess[str]:
-        output.parent.mkdir(parents=True, exist_ok=True)
-        Path(command[-1]).write_text("<svg/>", encoding="utf-8")
-        return subprocess.CompletedProcess(command, 0, "", "")
-
-    with patch("diagram_generator.renderer.subprocess.run", side_effect=run) as mock_run:
-        render_mermaid(source, output, project_root=tmp_path)
-
-    command = mock_run.call_args.args[0]
-    assert command == [
-        str(cli), "--iconPacks", "@iconify-json/lucide", "-i", str(source),
-        "-o", command[-1],
-    ]
-
-
 def test_renderer_reports_cli_failure(tmp_path: Path) -> None:
     source, output, _ = _setup(tmp_path)
     failed = subprocess.CompletedProcess([], 1, "rendering started", "invalid diagram")

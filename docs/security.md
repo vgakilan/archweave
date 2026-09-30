@@ -4,19 +4,20 @@
 
 Requirements can contain confidential business processes, interfaces, system
 names, and deployment details. Do not commit requirement documents without
-explicit approval. The repository contains local example requirements,
-including a PDF and extracted text; review each file before any future GitHub
-publication. Generated JSON models, Mermaid files, and SVGs can reveal the
-same architecture details, so review them as well. `.gitignore` keeps ordinary
-private requirement files out of `git add --all` by default, while retaining
-the two small approved-style text fixtures as candidates for review.
+explicit approval. Generated JSON models, Mermaid files, SVGs, and reports can
+reveal the same details. `.gitignore` excludes `requirements/` and `diagrams/`
+by default; review any artifact before sharing or force-adding it.
 
-Do not commit credentials, `.env` files, API keys, or tokens. Use environment
-variables for secrets. The OpenAI API analyzer is optional; the normal Codex
-workflow and test suite do not require `OPENAI_API_KEY`. Decide whether a
-requirement may be sent to any external service before using that optional
-integration. No API call is made by the deterministic model, planner, or
-renderer pipeline.
+Do not commit credentials, `.env` files, API keys, or tokens. The deterministic
+model validator and renderer do not call an external analysis API. The
+single-command workflow invokes the signed-in Codex CLI twice and sends the
+parsed Markdown for analysis and planning. Review the requirement's sharing
+rules before running it.
+
+AnyDoc converts supported documents locally by default. The parser's optional
+`--ocr hosted` mode sends a scanned PDF to Firecrawl Parse. Review that choice
+for confidential requirements. Parsed Markdown under `requirements/parsed/`
+is ignored by Git by default and may contain the full source text.
 
 ## Mermaid and npm advisories
 
@@ -31,7 +32,8 @@ the audit also lists a
 [prototype-pollution advisory](https://github.com/advisories/GHSA-f23m-r3pf-42rh)
 for `lodash-es`. The registry reports a possible remediation by moving the
 CLI to `11.17.0`, which is a major-version change from the installed CLI.
-No dependency change or `npm audit fix` was made as part of this cleanup.
+This cleanup removed unused icon packages. It did not change the Mermaid CLI
+version or run `npm audit fix`.
 
 The intended use is local CLI rendering, not a network-exposed Mermaid
 service. That narrows remote exposure, but it does not prove untrusted Mermaid

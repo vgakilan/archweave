@@ -8,9 +8,8 @@ version = "0.1.0"
 description = "Convert software requirements into structured diagrams."
 requires-python = ">=3.12"
 dependencies = [
+    "firecrawl-anydoc>=0.2.4,<1",
     "jsonschema>=4.23,<5",
-    "openai>=2.0,<3",
-    "pydantic>=2.0,<3",
 ]
 
 [project.optional-dependencies]

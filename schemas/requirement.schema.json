@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "source_markdown", "nodes", "edges", "processes", "statements", "open_points"],
+  "properties": {
+    "title": {"$ref": "#/$defs/text"},
+    "source_markdown": {"$ref": "#/$defs/text"},
+    "nodes": {"type": "array", "items": {"$ref": "#/$defs/node"}},
+    "edges": {"type": "array", "items": {"$ref": "#/$defs/edge"}},
+    "processes": {"type": "array", "items": {"$ref": "#/$defs/process"}},
+    "statements": {"type": "array", "items": {"$ref": "#/$defs/statement"}},
+    "open_points": {"type": "array", "items": {"$ref": "#/$defs/open_point"}}
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1, "allOf": [{"pattern": "\\S"}, {"pattern": "^[^\\r\\n]+$"}]},
+    "id": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"},
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["section", "excerpt"],
+      "properties": {"section": {"$ref": "#/$defs/text"}, "excerpt": {"$ref": "#/$defs/text"}}
+    },
+    "scope": {"enum": ["current", "future"]},
+    "node": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "type", "scope", "evidence"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "name": {"$ref": "#/$defs/text"},
+        "type": {"enum": ["actor", "application", "service", "gateway", "database", "message_broker", "external_system"]},
+        "scope": {"$ref": "#/$defs/scope"}, "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "edge": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "source", "target", "action", "scope", "evidence"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "source": {"$ref": "#/$defs/id"},
+        "target": {"$ref": "#/$defs/id"}, "action": {"$ref": "#/$defs/text"},
+        "protocol": {"$ref": "#/$defs/text"}, "scope": {"$ref": "#/$defs/scope"},
+        "scenario": {"$ref": "#/$defs/text"}, "sequence": {"type": "integer", "minimum": 1},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      },
+      "dependentRequired": {"scenario": ["sequence"], "sequence": ["scenario"]}
+    },
+    "step": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "kind", "evidence"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "name": {"$ref": "#/$defs/text"},
+        "kind": {"enum": ["action", "decision", "outcome"]},
+        "performed_by": {"$ref": "#/$defs/id"}, "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "transition": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "source", "target", "evidence"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "source": {"$ref": "#/$defs/id"},
+        "target": {"$ref": "#/$defs/id"}, "condition": {"$ref": "#/$defs/text"},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "process": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "scope", "evidence", "steps", "transitions"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "name": {"$ref": "#/$defs/text"},
+        "scope": {"$ref": "#/$defs/scope"}, "evidence": {"$ref": "#/$defs/evidence"},
+        "steps": {"type": "array", "items": {"$ref": "#/$defs/step"}},
+        "transitions": {"type": "array", "items": {"$ref": "#/$defs/transition"}}
+      }
+    },
+    "statement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "text", "scope", "evidence"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "text": {"$ref": "#/$defs/text"},
+        "scope": {"$ref": "#/$defs/scope"}, "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "open_point": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "question", "evidence"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "question": {"$ref": "#/$defs/text"},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    }
+  }
+}

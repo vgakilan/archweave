@@ -24,12 +24,7 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Requirement inputs are private by default; force-add only after review.
-requirements/*
-!requirements/sample.txt
-!requirements/order_processing.txt
-
-# Generated diagrams
-diagrams/rendered/*
-!diagrams/rendered/.gitkeep
-!diagrams/rendered/*.svg
+# Requirement inputs and generated review packages are private by default.
+requirements/
+diagrams/
+.local/

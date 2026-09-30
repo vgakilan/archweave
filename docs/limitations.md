@@ -1,21 +1,17 @@
 # Current limitations
 
-This is an internal MVP/prototype. Its current boundaries are:
-
-- Codex is the normal requirement-analysis agent; the quality of extraction
-  still depends on source clarity and human review.
-- PDF extraction depends on readable text or inspectable figures. Scanned or
-  poorly extracted PDFs may need separate preparation.
-- Layout quality depends on Mermaid. Disconnected graphs can produce poor or
-  tall layouts even when a view prefers `LR`.
-- The planner currently uses predefined JSON view plans. It validates source
-  references and a configured node cap, but it does not score or reject weak
-  views based on visual quality or usefulness.
-- The node taxonomy has no dedicated cache or coordination-service type;
-  generic supported types are used only when accurate.
-- There is no draw.io output, production agent framework, or CI/CD pipeline.
-- An OpenAI API implementation exists but is optional; it is not required for
-  the Codex workflow, deterministic pipeline, or pytest.
-- There is no organization-specific governance yet for requirement retention,
-  review, sharing, or publication. Teams must approve source documents and
-  generated architecture artifacts before committing or distributing them.
+- The one-command workflow requires an installed, signed-in Codex CLI. It
+  sends the parsed Markdown for model interpretation and view selection.
+- Model interpretation is probabilistic. Python validates structure, evidence
+  excerpts, and references; it cannot guarantee every source fact was captured.
+- Validation confirms that evidence excerpts occur in the Markdown, but a
+  human still needs to review whether each excerpt supports the asserted fact.
+- The supported views are architecture, flowchart, and sequence. Other UML
+  notations require additional model facts and renderers.
+- View plans are Codex-authored JSON. The validator checks their references and
+  scope, but it does not score visual clarity; inspect the rendered SVGs.
+- AnyDoc's local parser cannot OCR scanned PDFs. Optional hosted OCR sends the
+  document to Firecrawl Parse.
+- Mermaid layout can be awkward for disconnected or crowded graphs. Split
+  views rather than add unsupported links for layout.
+- There is no draw.io export or organization-specific publication workflow.

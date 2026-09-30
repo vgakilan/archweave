@@ -2,14 +2,9 @@
 
 import os
 from pathlib import Path
-import re
 import subprocess
 from uuid import uuid4
 
-from diagram_generator.icons import ICON_PACKAGES
-
-
-_ICON_PREFIX = re.compile(r'@\{\s*shape:\s*icon,\s*icon:\s*"([a-z][a-z0-9-]*):')
 
 class MermaidRenderError(RuntimeError):
     """The local Mermaid CLI could not produce an SVG."""
@@ -45,13 +40,7 @@ def render_mermaid(
 
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary_output = output.with_name(f".{output.stem}.{uuid4().hex}.svg")
-    icon_prefixes = set(_ICON_PREFIX.findall(source.read_text(encoding="utf-8")))
-    icon_packages = [
-        package for prefix, package in ICON_PACKAGES.items() if prefix in icon_prefixes
-    ]
     command = [str(cli)]
-    if icon_packages:
-        command.extend(["--iconPacks", *icon_packages])
     command.extend(["-i", str(source), "-o", str(temporary_output)])
     try:
         try:
