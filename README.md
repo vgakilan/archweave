@@ -14,7 +14,12 @@ Windows PowerShell:
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e ".[dev]"
 npm ci
+New-Item -ItemType Directory -Force requirements | Out-Null
 ```
+
+Place the source document in `requirements/` before running a review. This
+directory and the generated `diagrams/` directory are ignored by Git; the
+workflow creates output directories as needed.
 
 ## Workflow
 
